@@ -27,3 +27,13 @@ export function validateRequired(value) {
   }
   return error;
 }
+
+export function validatePhone(value) {
+  let error;
+  const re = RegExp("\\d{10}");
+
+  if (!re.test(value)) {
+    error = "The phone number should be 10 digit without any space or dash";
+  }
+  return error;
+}

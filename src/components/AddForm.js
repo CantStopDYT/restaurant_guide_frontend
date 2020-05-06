@@ -6,6 +6,7 @@ import {
   validateName,
   validateUrl,
   validateRequired,
+  validatePhone,
 } from "./AddForm/validationFunctions";
 import DisplayError from "./AddForm/DisplayError";
 //import * as yup from "yup";
@@ -126,7 +127,7 @@ function AddForm() {
 
             <div className="p-2 flex flex-row">
               <label
-                htmlFor="street_address"
+                htmlFor="location[0].street_address"
                 className=" text-left text-gray-800 pr-4 font-semibold w-1/3 m-auto"
               >
                 Street Address
@@ -135,9 +136,13 @@ function AddForm() {
               <Field
                 name="location[0].street_address"
                 className="appearance-none bg-gray-200 border-gray-200 rounded p-2 w-2/3"
+                onChange={handleChange}
+                validate={validateRequired}
               />
             </div>
-
+            {errors.location && touched.location && (
+              <DisplayError>{errors.location[0].street_address}</DisplayError>
+            )}
             <div className="p-2 flex flex-row">
               <label
                 htmlFor="location[0].city"
@@ -186,8 +191,13 @@ function AddForm() {
                 name="location[0].phone_number"
                 className="appearance-none bg-gray-200 border-gray-200 rounded p-2 w-2/3"
                 placeholder="9371234567"
+                onChange={handleChange}
+                validate={validatePhone}
               />
             </div>
+            {errors.location && touched.location && (
+              <DisplayError>{errors.location[0].phone_number}</DisplayError>
+            )}
             <hr />
             {/* Hours */}
             <div>
