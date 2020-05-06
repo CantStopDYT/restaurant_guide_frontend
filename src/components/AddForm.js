@@ -1,6 +1,14 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as yup from "yup";
+import { Formik, Form, Field } from "formik";
+
+import { from_hours_select, to_hours_select } from "./AddForm/hourSelect";
+import {
+  validateName,
+  validateUrl,
+  validateRequired,
+} from "./AddForm/validationFunctions";
+import DisplayError from "./AddForm/DisplayError";
+//import * as yup from "yup";
 
 function AddForm() {
   const initialValues = {
@@ -22,122 +30,15 @@ function AddForm() {
           { weekday: "Thursday", from_hour: "", to_hour: "", closed: false },
           { weekday: "Friday", from_hour: "", to_hour: "", closed: false },
           { weekday: "Saturday", from_hour: "", to_hour: "", closed: false },
-          { weekday: "Sunday", from_hour: "", to_hour: "", closed: false }
-        ]
-      }
+          { weekday: "Sunday", from_hour: "", to_hour: "", closed: false },
+        ],
+      },
     ],
     order_methods: [],
     delivery_options: [],
     pickup_options: [],
-    dietary_options: []
+    dietary_options: [],
   };
-  const schema = yup.object().shape({
-    name: yup
-      .string()
-      .min(3, "The name should be at least 3 characters long")
-      .required("The name of the business is required"),
-    status: "",
-    website_url: yup.string().url("This is not valid website address"),
-    menu_url: yup.string().url("This is not valid website address"),
-    location: [
-      {
-        street_address: "",
-        city: "",
-        state: "OH",
-        zipcode: "",
-        phone_number: "",
-        hours: [
-          { weekday: "Monday", from_hour: "", to_hour: "", closed: false },
-          { weekday: "Tuesday", from_hour: "", to_hour: "", closed: false },
-          { weekday: "Wednesday", from_hour: "", to_hour: "", closed: false },
-          { weekday: "Thursday", from_hour: "", to_hour: "", closed: false },
-          { weekday: "Friday", from_hour: "", to_hour: "", closed: false },
-          { weekday: "Saturday", from_hour: "", to_hour: "", closed: false },
-          { weekday: "Sunday", from_hour: "", to_hour: "", closed: false }
-        ]
-      }
-    ],
-    order_methods: [],
-    delivery_options: [],
-    pickup_options: [],
-    dietary_options: []
-  });
-
-  const from_hours_select = (
-    <>
-      <option value="00:00">12:00 AM</option>
-      <option value="00:30">12:30 AM</option>
-      <option value="01:00">01:00 AM</option>
-      <option value="01:30">01:30 AM</option>
-      <option value="02:00">02:00 AM</option>
-      <option value="02:30">02:30 AM</option>
-      <option value="03:00">03:00 AM</option>
-      <option value="03:30">03:30 AM</option>
-      <option value="04:00">04:00 AM</option>
-      <option value="04:30">04:30 AM</option>
-      <option value="05:00">05:00 AM</option>
-      <option value="05:30">05:30 AM</option>
-      <option value="06:00">06:00 AM</option>
-      <option value="06:30">06:30 AM</option>
-      <option value="07:00">07:00 AM</option>
-      <option value="07:30">07:30 AM</option>
-      <option value="08:00">08:00 AM</option>
-      <option value="08:30">08:30 AM</option>
-      <option value="09:00">09:00 AM</option>
-      <option value="09:30">09:30 AM</option>
-      <option value="10:00">10:00 AM</option>
-      <option value="10:30">10:30 AM</option>
-      <option value="11:00">11:00 AM</option>
-      <option value="11:30">11:30 AM</option>
-      <option value="12:00">12:00 PM</option>
-      <option value="12:30">12:30 PM</option>
-      <option value="13:00">01:00 PM</option>
-      <option value="13:30">01:30 PM</option>
-      <option value="14:00">02:00 PM</option>
-      <option value="14:30">02:30 PM</option>
-      <option value="15:00">03:00 PM</option>
-      <option value="15:30">03:30 PM</option>
-      <option value="16:00">04:00 PM</option>
-      <option value="16:30">02:30 PM</option>
-      <option value="17:00">03:00 PM</option>
-      <option value="17:30">05:30 PM</option>
-      <option value="18:00">06:00 PM</option>
-    </>
-  );
-
-  const to_hours_select = (
-    <>
-      <option value="12:00">12:00 PM</option>
-      <option value="12:30">12:30 PM</option>
-      <option value="13:00">01:00 PM</option>
-      <option value="13:30">01:30 PM</option>
-      <option value="14:00">02:00 PM</option>
-      <option value="14:30">02:30 PM</option>
-      <option value="15:00">03:00 PM</option>
-      <option value="15:30">03:30 PM</option>
-      <option value="16:00">04:00 PM</option>
-      <option value="16:30">02:30 PM</option>
-      <option value="17:00">03:00 PM</option>
-      <option value="17:30">05:30 PM</option>
-      <option value="18:00">06:00 PM</option>
-      <option value="18:30">06:30 PM</option>
-      <option value="19:00">07:00 PM</option>
-      <option value="19:30">07:30 PM</option>
-      <option value="20:00">03:00 PM</option>
-      <option value="20:30">03:30 PM</option>
-      <option value="21:00">04:00 PM</option>
-      <option value="21:30">02:30 PM</option>
-      <option value="22:00">03:00 PM</option>
-      <option value="22:30">05:30 PM</option>
-      <option value="23:00">06:00 PM</option>
-      <option value="23:30">03:30 PM</option>
-      <option value="00:00">12:00 AM</option>
-      <option value="00:30">12:30 AM</option>
-      <option value="01:00">01:00 AM</option>
-      <option value="01:30">01:30 AM</option>
-      <option value="02:00">02:00 AM</option>
-    </>
-  );
 
   return (
     <div className="sm:w-3/5 m-auto">
@@ -145,12 +46,11 @@ function AddForm() {
       <pre></pre>
       <Formik
         initialValues={initialValues}
-        validationSchema={schema}
-        onSubmit={async values => {
+        onSubmit={async (values) => {
           alert(JSON.stringify(values, null, 2));
         }}
       >
-        {({ values }) => (
+        {({ values, errors, touched, handleChange }) => (
           <Form className="">
             <div className="bg-red-500">
               {/* */}{" "}
@@ -167,8 +67,13 @@ function AddForm() {
                 name="name"
                 type="text"
                 className="appearance-none bg-gray-200 border-gray-200 rounded p-2 w-2/3"
+                validate={validateName}
+                onChange={handleChange}
               />
             </div>
+            {errors.name && touched.name && (
+              <DisplayError>{errors.name}</DisplayError>
+            )}
             <div className="m-3 flex flex-row">
               <label
                 htmlFor="status"
@@ -181,7 +86,7 @@ function AddForm() {
                 as="select"
                 className="bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 w-2/3"
               >
-                <option value="Limited Hours">Limited Hours</option>
+                <option value="Regular Hours">Regular Hours</option>
                 <option value="Regular Hours">Regular Hours</option>
                 <option value="Temporarily Closed">Temporarily Closed</option>
               </Field>
@@ -193,13 +98,17 @@ function AddForm() {
               >
                 Website
               </label>
-
               <Field
                 name="website_url"
                 className="appearance-none bg-gray-200 border-gray-200 rounded p-2 w-2/3"
+                placeholder="https://restaurant-website.com"
+                validate={validateUrl}
+                onChange={handleChange}
               />
-              <ErrorMessage name="website_url" />
             </div>
+            {errors.website_url && touched.website_url && (
+              <DisplayError>{errors.website_url}</DisplayError>
+            )}
             <div className="p-2 flex flex-row">
               <label
                 htmlFor="menu_url"
@@ -240,9 +149,13 @@ function AddForm() {
               <Field
                 name="location[0].city"
                 className="appearance-none bg-gray-200 border-gray-200 rounded p-2 w-2/3"
+                onChange={handleChange}
+                validate={validateRequired}
               />
             </div>
-
+            {errors.location && touched.location && (
+              <DisplayError>{errors.location[0].city}</DisplayError>
+            )}
             <div className="p-2 flex flex-row">
               <label
                 htmlFor="location[0].zipcode"
@@ -254,9 +167,13 @@ function AddForm() {
               <Field
                 name="location[0].zipcode"
                 className="appearance-none bg-gray-200 border-gray-200 rounded p-2 w-2/3"
+                onChange={handleChange}
+                validate={validateRequired}
               />
             </div>
-
+            {errors.location && touched.location && (
+              <DisplayError>{errors.location[0].zipcode}</DisplayError>
+            )}
             <div className="p-2 flex flex-row">
               <label
                 htmlFor="location[0].phone_number"
@@ -268,6 +185,7 @@ function AddForm() {
               <Field
                 name="location[0].phone_number"
                 className="appearance-none bg-gray-200 border-gray-200 rounded p-2 w-2/3"
+                placeholder="9371234567"
               />
             </div>
             <hr />

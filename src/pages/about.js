@@ -12,7 +12,7 @@ function AboutPage() {
           `Dayton Eats`,
           `Contributors`,
           `project details`,
-          `COVID-19`
+          `COVID-19`,
         ]}
         title="About"
       />
